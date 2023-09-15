@@ -1,0 +1,7 @@
+E:\Programowanie\Turn Based Game (Console)\bin\Debug\Turn Based Game (Console).exe.config
+E:\Programowanie\Turn Based Game (Console)\bin\Debug\Turn Based Game (Console).exe
+E:\Programowanie\Turn Based Game (Console)\bin\Debug\Turn Based Game (Console).pdb
+E:\Programowanie\Turn Based Game (Console)\obj\Debug\Turn Based Game (Console).csproj.AssemblyReference.cache
+E:\Programowanie\Turn Based Game (Console)\obj\Debug\Turn Based Game (Console).csproj.CoreCompileInputs.cache
+E:\Programowanie\Turn Based Game (Console)\obj\Debug\Turn Based Game (Console).exe
+E:\Programowanie\Turn Based Game (Console)\obj\Debug\Turn Based Game (Console).pdb
