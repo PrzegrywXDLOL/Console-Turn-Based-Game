@@ -18,6 +18,9 @@ namespace Turn_Based_Game__Console_
         public int blocksAvailable;
 
         public Player() { }
+
+        //function that will assign stats to player's character
+
         public void SetStats(string Name, int HP, int Damage, int Heal, int BlocksAvailable, int HealsAvailable)
         {
             name = Name;
@@ -27,6 +30,8 @@ namespace Turn_Based_Game__Console_
             blocksAvailable = BlocksAvailable;
             healsAvailable = HealsAvailable;
         }
+
+        //function that will deal damage to player's character
 
         public void DealDmg()
         {
@@ -42,6 +47,8 @@ namespace Turn_Based_Game__Console_
                 dead = true;
         }
 
+        //function that heals player's character if possible
+
         public void PlayerHeal()
         {
             if (healsAvailable > 0)
@@ -53,16 +60,22 @@ namespace Turn_Based_Game__Console_
                 Console.WriteLine("No heals available");
         }
 
+        //checking if player's character is dead
+
         public bool IsDead()
         {
             return dead;
         }
+
+        //Turning on block for the next turn
 
         public void Block()
         {
             block = true;
         }
 
+        //function that shows current stats of player's character (for example You can see
+        //Your stats after taking damage in previous turn and see if Your character needs healing)
         public void PrintStats()
         {
             Console.WriteLine("------------------Stats------------------");

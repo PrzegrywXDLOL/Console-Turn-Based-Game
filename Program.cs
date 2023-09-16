@@ -21,6 +21,9 @@ namespace Turn_Based_Game__Console_
             int Player2Choice;
             bool p1c;
             bool p2c;
+            bool gameover = false;
+            bool TurnEnded = false;
+            int currentPlayer = 1;
 
             Console.WriteLine(@"Choose Your character (1-3):
 1. Assasin: HP - 5, Damage - 5, Heal - 3, Heals Available - 3, Blocks Available - 2
@@ -28,6 +31,9 @@ namespace Turn_Based_Game__Console_
 3. Mage: HP - 4, Damage - 3, Heal - 5, Heals Available - 5, Blocks Available - 1");
 
             Console.WriteLine("Player 1: ");
+
+            //checking if user chose good character (no a,b,c, etc. and in range from 1 to 3)
+            //if not program will tell him to choose again
 
             do
             {
@@ -64,10 +70,15 @@ namespace Turn_Based_Game__Console_
 
             } while (!p2c);
 
+            //variables made only to apply damage stats to players (for example player1
+            //will get damage stat of player2)
+
             int p1d = Player1Choice - 1;
             int p2d = Player2Choice - 1;
 
             Console.Clear();
+
+            //applying stats to players according to chosen characters
 
             switch (Player1Choice)
             {
@@ -94,6 +105,43 @@ namespace Turn_Based_Game__Console_
                     player2.SetStats("Mage", characterStats[2, 0], characterStats[p1d, 1], characterStats[2, 2], characterStats[2, 3], characterStats[2, 4]);
                     break;
             }
+
+            //Turn system and actual game
+
+            do
+            {
+                Console.WriteLine("------------------Turn " + (TurnCounter++) + "-----------------");
+
+                //loop for players moves
+
+                do
+                {
+                    Console.WriteLine(@"Possible moves (1-4):
+1. Attack
+2. Block
+3. Heal
+4. Stats (doesn't end move)");
+
+                    Console.WriteLine("Player's " + currentPlayer + " move:");
+
+                } while (!TurnEnded);
+
+                //checking if one of players are dead
+
+                if (player2.IsDead())
+                {
+                    Console.WriteLine("Congratulations, Player 1 wins as " + player1.name + " in " + TurnCounter + " turns.");
+                    gameover = true;
+                }
+                else if (player1.IsDead())
+                {
+                    Console.WriteLine("Congratulations, Player 2 wins as " + player2.name + " in " + TurnCounter + " turns.");
+                    gameover = true;
+                }
+
+                Console.WriteLine("-----------------------------------------");
+
+            } while (!gameover);
 
             Console.ReadKey();
 
