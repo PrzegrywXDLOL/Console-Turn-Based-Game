@@ -17,7 +17,8 @@ namespace Turn_Based_Game__Console_
         public bool block = false;
         public int blocksAvailable;
 
-        public Player(string Name, int HP, int Damage, int Heal, int BlocksAvailable, int HealsAvailable)
+        public Player() { }
+        public void SetStats(string Name, int HP, int Damage, int Heal, int BlocksAvailable, int HealsAvailable)
         {
             name = Name;
             hp = HP;
@@ -64,11 +65,13 @@ namespace Turn_Based_Game__Console_
 
         public void PrintStats()
         {
+            Console.WriteLine("------------------Stats------------------");
             Console.WriteLine("Name: " + name);
             Console.WriteLine("HP: " + hp);
             Console.WriteLine("Heal: " + heal);
             Console.WriteLine("Heals Available: " + healsAvailable);
             Console.WriteLine("Blocks Available: " + blocksAvailable);
+            Console.WriteLine("-----------------------------------------");
         }
     }
 }
