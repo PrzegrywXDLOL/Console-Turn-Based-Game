@@ -16,6 +16,7 @@ namespace Turn_Based_Game__Console_
         public bool dead = false;
         public bool block = false;
         public int blocksAvailable;
+        public bool attack = false;
 
         public Player() { }
 
@@ -35,7 +36,7 @@ namespace Turn_Based_Game__Console_
 
         public void DealDmg()
         {
-            if (block && blocksAvailable > 0)
+            if (block)
             {
                 Console.WriteLine("Damage blocked");
                 block = false;
@@ -71,7 +72,14 @@ namespace Turn_Based_Game__Console_
 
         public void Block()
         {
-            block = true;
+            if (blocksAvailable > 0)
+            {
+                block = true;
+                blocksAvailable--;
+            }
+            else
+                Console.WriteLine("No blocks available");
+            
         }
 
         //function that shows current stats of player's character (for example You can see
@@ -85,6 +93,15 @@ namespace Turn_Based_Game__Console_
             Console.WriteLine("Heals Available: " + healsAvailable);
             Console.WriteLine("Blocks Available: " + blocksAvailable);
             Console.WriteLine("-----------------------------------------");
+        }
+        public void Attack()
+        {
+            attack = true;
+        }
+
+        public bool IsAttacking()
+        {
+            return attack;
         }
     }
 }

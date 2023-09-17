@@ -16,14 +16,18 @@ namespace Turn_Based_Game__Console_
             int[,] characterStats = { {5, 5, 3, 2, 3},
                                       {7, 4, 2, 3, 2},
                                       {4, 3, 5, 1, 5}};
-            int TurnCounter = 0;
-            int Player1Choice;
-            int Player2Choice;
             bool p1c;
             bool p2c;
+            int TurnCounter = 1;
+            int Player1Choice;
+            int Player2Choice;
             bool gameover = false;
-            bool TurnEnded = false;
-            int currentPlayer = 1;
+            int PlayersMoves = 0;
+            Player currentPlayer;
+            Player enemyPlayer;
+            bool BoolPlayerChoice;
+            int playerChoice;
+            int checkAttack = 0;
 
             Console.WriteLine(@"Choose Your character (1-3):
 1. Assasin: HP - 5, Damage - 5, Heal - 3, Heals Available - 3, Blocks Available - 2
@@ -38,17 +42,18 @@ namespace Turn_Based_Game__Console_
             do
             {
                 p1c = int.TryParse(Console.ReadLine(), out Player1Choice);
-                if (Player1Choice < 4 && Player1Choice > 0)
+                if (p1c)
                 {
-                    if (!p1c)
+                    if (Player1Choice > 3 && Player1Choice < 0)
+                    {
                         Console.WriteLine("Wrong choice, try again");
+                    }
                 }
                 else
                 {
                     Console.WriteLine("Wrong choice, try again");
-                    p1c = false;
-                }
-                
+                } 
+
             } while (!p1c);
 
 
@@ -57,16 +62,17 @@ namespace Turn_Based_Game__Console_
             do
             {
                 p2c = int.TryParse(Console.ReadLine(), out Player2Choice);
-                if (Player2Choice < 4 && Player2Choice > 0)
+                if (p2c)
                 {
-                    if (!p2c)
+                    if (Player2Choice > 3 && Player2Choice < 0)
+                    {
                         Console.WriteLine("Wrong choice, try again");
+                    }
                 }
                 else
                 {
                     Console.WriteLine("Wrong choice, try again");
-                    p2c = false;
-                }    
+                }
 
             } while (!p2c);
 
@@ -110,34 +116,123 @@ namespace Turn_Based_Game__Console_
 
             do
             {
-                Console.WriteLine("------------------Turn " + (TurnCounter++) + "-----------------");
+                Console.WriteLine("-----------------Turn " + (TurnCounter++) + "-----------------");
+
+                
+
+                    Console.WriteLine(@"Possible moves (1-4):
+1. Attack
+2. Block (have priority)
+3. Heal (have priority)
+4. Stats (doesn't end move)");
 
                 //loop for players moves
 
+                PlayersMoves = 0;
+
                 do
                 {
-                    Console.WriteLine(@"Possible moves (1-4):
-1. Attack
-2. Block
-3. Heal
-4. Stats (doesn't end move)");
+                    if (PlayersMoves == 1)
+                    {
+                        currentPlayer = player2;
+                        enemyPlayer = player1;
+                    }
+                    else
+                    {
+                        currentPlayer = player1;
+                        enemyPlayer = player2;
+                    }
+                    Console.WriteLine(currentPlayer.name + "'s move:");
 
-                    Console.WriteLine("Player's " + currentPlayer + " move:");
+                    //checking if player chose correct move
 
-                } while (!TurnEnded);
+                    do
+                    {
+                        BoolPlayerChoice = int.TryParse(Console.ReadLine(), out playerChoice);
+                        if (BoolPlayerChoice)
+                        {
+                            if (playerChoice > 4 && playerChoice <= 0)
+                            {
+                                Console.WriteLine("Wrong choice, try again");
+                            }
+                        }
+                        else
+                        {
+                            Console.WriteLine("Wrong choice, try again");
+                        }
 
-                //checking if one of players are dead
+                    } while (!BoolPlayerChoice);
 
-                if (player2.IsDead())
+                    //finalizing player's move
+
+                    switch (playerChoice)
+                    {
+                        case 1:
+                            currentPlayer.Attack();
+                            PlayersMoves++;
+                            break;
+                        case 2:
+                            if (currentPlayer.blocksAvailable > 0)
+                            {
+                                currentPlayer.Block();
+                                Console.WriteLine("Next attack will be blocked");
+                                PlayersMoves++;
+                            }
+                            else
+                                currentPlayer.Block();
+                            break;
+                        case 3:                           
+                            if(currentPlayer.healsAvailable > 0)
+                            {
+                               currentPlayer.PlayerHeal();
+                               Console.WriteLine(currentPlayer.name+" healed himself for "+currentPlayer.heal);
+                               PlayersMoves++; 
+                            }
+                            else
+                                currentPlayer.PlayerHeal();
+                            break;
+                        case 4:
+                            currentPlayer.PrintStats();
+                            break;
+                    }
+
+                } while (PlayersMoves <= 1);
+
+                do
                 {
-                    Console.WriteLine("Congratulations, Player 1 wins as " + player1.name + " in " + TurnCounter + " turns.");
-                    gameover = true;
-                }
-                else if (player1.IsDead())
-                {
-                    Console.WriteLine("Congratulations, Player 2 wins as " + player2.name + " in " + TurnCounter + " turns.");
-                    gameover = true;
-                }
+                    //part of code responsible for attacking
+
+                    if (player1.IsAttacking())
+                    {
+                        Console.WriteLine(player1.name + " attacks " + player2.name + " for " + player2.damage);
+                        player2.DealDmg();
+                        player1.attack = false;
+                    }else if (player2.IsAttacking())
+                    {
+                        Console.WriteLine(player2.name + " attacks " + player1.name + " for " + player1.damage);
+                        player1.DealDmg();                        
+                        player2.attack = false;
+                    }
+
+
+                    //checking if one of players is dead
+
+                    if (player1.IsDead())
+                    {
+                        Console.WriteLine("Congratulations, Player 2 wins as " + player2.name + " in " + (TurnCounter - 1) + " turns.");
+                        gameover = true;
+                        break;
+                    }
+                    else if (player2.IsDead())
+                    {
+                        Console.WriteLine("Congratulations, Player 1 wins as " + player1.name + " in " + (TurnCounter - 1) + " turns.");
+                        gameover = true;
+                        break;
+                    }
+
+                    checkAttack++;
+
+                }while (checkAttack <= 1);
 
                 Console.WriteLine("-----------------------------------------");
 
