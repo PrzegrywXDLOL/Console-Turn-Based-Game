@@ -116,7 +116,7 @@ namespace Turn_Based_Game__Console_
 
             do
             {
-                Console.WriteLine("-----------------Turn " + (TurnCounter++) + "-----------------");
+                Console.WriteLine("-----------------Turn " + (TurnCounter++) + "------------------");
 
                 
 
