@@ -22,12 +22,11 @@ namespace Turn_Based_Game__Console_
             int Player1Choice;
             int Player2Choice;
             bool gameover = false;
-            int PlayersMoves = 0;
+            int PlayersMoves;
             Player currentPlayer;
-            Player enemyPlayer;
             bool BoolPlayerChoice;
             int playerChoice;
-            int checkAttack = 0;
+            int checkAttack;
 
             Console.WriteLine(@"Choose Your character (1-3):
 1. Assasin: HP - 5, Damage - 5, Heal - 3, Heals Available - 3, Blocks Available - 2
@@ -44,7 +43,7 @@ namespace Turn_Based_Game__Console_
                 p1c = int.TryParse(Console.ReadLine(), out Player1Choice);
                 if (p1c)
                 {
-                    if (Player1Choice > 3 && Player1Choice < 0)
+                    if (Player1Choice > 3 || Player1Choice < 0)
                     {
                         Console.WriteLine("Wrong choice, try again");
                     }
@@ -64,7 +63,7 @@ namespace Turn_Based_Game__Console_
                 p2c = int.TryParse(Console.ReadLine(), out Player2Choice);
                 if (p2c)
                 {
-                    if (Player2Choice > 3 && Player2Choice < 0)
+                    if (Player2Choice > 3 || Player2Choice < 0)
                     {
                         Console.WriteLine("Wrong choice, try again");
                     }
@@ -135,12 +134,10 @@ namespace Turn_Based_Game__Console_
                     if (PlayersMoves == 1)
                     {
                         currentPlayer = player2;
-                        enemyPlayer = player1;
                     }
                     else
                     {
                         currentPlayer = player1;
-                        enemyPlayer = player2;
                     }
                     Console.WriteLine(currentPlayer.name + "'s move:");
 
@@ -151,7 +148,7 @@ namespace Turn_Based_Game__Console_
                         BoolPlayerChoice = int.TryParse(Console.ReadLine(), out playerChoice);
                         if (BoolPlayerChoice)
                         {
-                            if (playerChoice > 4 && playerChoice <= 0)
+                            if (playerChoice > 4 || playerChoice <= 0)
                             {
                                 Console.WriteLine("Wrong choice, try again");
                             }
@@ -197,6 +194,8 @@ namespace Turn_Based_Game__Console_
                     }
 
                 } while (PlayersMoves <= 1);
+
+                checkAttack = 0;
 
                 do
                 {
